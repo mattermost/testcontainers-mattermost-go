@@ -457,6 +457,8 @@ func RunContainer(ctx context.Context, opts ...MattermostCustomizeRequestOption)
 		req.network = newNetwork
 	}
 
+	req.GenericContainerRequest.Networks = []string{req.network.Name}
+
 	postgresContainer, err := runPostgresContainer(ctx, req.network)
 	if err != nil {
 		if err2 := req.network.Remove(ctx); err2 != nil {
