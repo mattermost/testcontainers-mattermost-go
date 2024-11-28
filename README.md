@@ -46,6 +46,41 @@ func TestMattermost(t *testing.T) {
   - Access logs
   - And more...
 
+## Container Methods
+
+The `MattermostContainer` provides the following methods:
+
+### Basic Operations
+- `URL(ctx)` - Returns the URL of the Mattermost instance
+- `Terminate(ctx)` - Terminates both Mattermost and PostgreSQL containers
+- `PostgresDSN(ctx)` - Returns the PostgreSQL connection string
+- `PostgresConnection(ctx)` - Returns a direct SQL connection to PostgreSQL
+
+### Client Access
+- `GetAdminClient(ctx)` - Returns a Mattermost client logged in as admin
+- `GetClient(ctx, username, password)` - Returns a Mattermost client logged in as specified user
+
+### User Management
+- `CreateAdmin(ctx, email, username, password)` - Creates an admin user
+- `CreateUser(ctx, email, username, password)` - Creates a regular user
+
+### Team Management
+- `CreateTeam(ctx, name, displayName)` - Creates a new team
+- `AddUserToTeam(ctx, username, teamname)` - Adds a user to a team
+
+### Configuration
+- `SetConfig(ctx, configKey, configValue)` - Sets a single config value
+- `UpdateConfig(ctx, cfg)` - Updates the entire Mattermost configuration
+
+### Plugin Management
+- `InstallPlugin(ctx, pluginPath, pluginID, pluginConfig)` - Installs and enables a plugin
+
+### Logging
+- `GetLogs(ctx, lines)` - Returns the specified number of log lines
+
+### Command Execution
+- `RunCtlCommand(ctx, command, args)` - Runs an mmctl command inside the container
+
 ## Options
 
 The container can be customized using various options:
@@ -68,6 +103,9 @@ container, err := mmcontainer.RunContainer(ctx,
     
     // Set environment variables
     mmcontainer.WithEnv("MM_SERVICESETTINGS_SITEURL", "http://localhost:8065"),
+    
+    // Use custom network
+    mmcontainer.WithNetwork(network),
 )
 ```
 
