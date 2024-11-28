@@ -83,7 +83,37 @@ The `MattermostContainer` provides the following methods:
 
 ## Options
 
-The container can be customized using various options:
+The `RunContainer` function accepts the following options to customize the Mattermost instance:
+
+### Authentication Options
+- `WithAdmin(email, username, password)` - Sets the admin user credentials
+  - Default: admin@example.com/admin/admin
+
+### Team Options  
+- `WithTeam(name, displayName)` - Sets the initial team name and display name
+  - Default: test/Test
+
+### Plugin Options
+- `WithPlugin(pluginPath, pluginID, pluginConfig)` - Installs and enables a plugin
+  - pluginPath: Path to the plugin file (.tar.gz)
+  - pluginID: Unique identifier for the plugin
+  - pluginConfig: Optional plugin-specific configuration
+
+### Configuration Options
+- `WithConfig(cfg)` - Updates the entire Mattermost configuration
+- `WithConfigFile(path)` - Uses a config file from the host system
+- `WithEnv(key, value)` - Sets an environment variable
+- `WithLicense(licenseBase64)` - Sets the Mattermost license
+
+### Network Options
+- `WithNetwork(network)` - Uses a custom Docker network
+  - Adds container to the network with alias "mattermost"
+  - Enables communication between containers
+
+### Logging Options
+- `WithLogConsumers(consumers...)` - Sets log consumers for container output
+
+Example usage:
 
 ```go
 container, err := mmcontainer.RunContainer(ctx,
@@ -106,6 +136,9 @@ container, err := mmcontainer.RunContainer(ctx,
     
     // Use custom network
     mmcontainer.WithNetwork(network),
+    
+    // Add log consumer
+    mmcontainer.WithLogConsumers(myLogConsumer),
 )
 ```
 
