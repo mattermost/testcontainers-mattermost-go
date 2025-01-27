@@ -398,8 +398,8 @@ func WithLogConsumers(consumer ...testcontainers.LogConsumer) MattermostCustomiz
 
 // runPostgresContainer creates a postgres container
 func runPostgresContainer(ctx context.Context, nw *testcontainers.DockerNetwork) (*postgres.PostgresContainer, error) {
-	return postgres.RunContainer(ctx,
-		testcontainers.WithImage("docker.io/postgres:15.2-alpine"),
+	return postgres.Run(ctx,
+		"docker.io/postgres:15.2-alpine",
 		postgres.WithDatabase("mattermost_test"),
 		postgres.WithUsername("user"),
 		postgres.WithPassword("pass"),
